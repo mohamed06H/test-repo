@@ -4,3 +4,4 @@ matplotlib==3.9.1
 pyarrow==17.0.0
 fastparquet==2024.5.0
 pytest
+boto3
