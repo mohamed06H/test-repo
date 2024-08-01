@@ -15,7 +15,7 @@ COPY . /app/
 
 # Ensure the WORKDIR and S3_BUCKET environment variables are passed into the container
 ENV WORKDIR=/app/
-ENV S3_BUCKET='raw'
+ENV S3_BUCKET='raw-images-mh06'
 
 # Command to run the application
 CMD ["python", "app.py"]
