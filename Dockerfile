@@ -1,5 +1,5 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -17,5 +17,5 @@ COPY . /app/
 ENV WORKDIR=/app/
 ENV S3_BUCKET='raw-images-mh06'
 
-# Command to run the application
-CMD ["python", "app.py"]
+# Set the entrypoint to allow passing arguments
+ENTRYPOINT ["python", "app.py"]
