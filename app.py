@@ -1,3 +1,6 @@
+import os
+import argparse
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -185,15 +188,14 @@ def get_stats(batches):
     return df
 
 
-# ------------ main 
-if __name__ == '__main__':
+# ------------ main
+def main(n_batches: int, n_images:int):
     # Retrieve the WORKDIR environment variable
-    import os
+    
     S3_BUCKET = os.environ.get('S3_BUCKET')
 
-
     # Instruction 1
-    generated_batches = generate_random_batches(n_batches=5, n_images=20, image_shape=(256, 512, 3))
+    generated_batches = generate_random_batches(n_batches=n_batches, n_images=n_images, image_shape=(256, 512, 3))
     # plot_batches(generated_batches)
     
     # Instruction 2
@@ -206,7 +208,23 @@ if __name__ == '__main__':
 
     # Instruction 4
     df = get_stats(croped_batches)
+    print(df.head())
 
     # Instruction 5 - Save to a parquet file
-    save_to_s3(df, S3_BUCKET, 'test/test.parquet')
+    if n_batches == 5 and n_images == 20:
+        print("Saving Images to S3 ...")
+        save_to_s3(df, S3_BUCKET, 'test/test.parquet')
+        
 
+
+if __name__ == "__main__":
+     # Setup argument parser
+    parser = argparse.ArgumentParser(description="Process some images.")
+    parser.add_argument('--n_batches', type=int, required=True, help='Number of batches to generate')
+    parser.add_argument('--n_images', type=int, required=True, help='Number of images per batch')
+    
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Call main function with parsed arguments
+    main(args.n_batches, args.n_images)
